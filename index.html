@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Verification Guide - Spam/Phishing Analysis</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .alert-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .alert-box strong {
+            color: #856404;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        .section h2 {
+            color: #1e3c72;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .section h3 {
+            color: #2a5298;
+            font-size: 1.3em;
+            margin: 25px 0 15px 0;
+        }
+        
+        .step {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #1e3c72;
+        }
+        
+        .step-content {
+            margin-left: 55px;
+        }
+        
+        .substep {
+            margin: 10px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .substep:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .tool-box {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .tool-box strong {
+            color: #1565c0;
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .red-flag {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .red-flag h4 {
+            color: #c62828;
+            margin-bottom: 10px;
+        }
+        
+        .red-flag ul {
+            margin-left: 20px;
+        }
+        
+        .red-flag li {
+            margin: 5px 0;
+            color: #d32f2f;
+        }
+        
+        .green-flag {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        
+        .green-flag h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+        
+        .decision-tree {
+            background: #fff;
+            border: 2px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .decision-tree h4 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        code {
+            background: #263238;
+            color: #aed581;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .example {
+            background: #f5f5f5;
+            border: 1px dashed #999;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .checklist {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .checklist-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #fafafa;
+            border-left: 3px solid #999;
+        }
+        
+        .checklist-item:hover {
+            background: #f0f0f0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: #1e3c72;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛡️ Email Verification Protocol</h1>
+            <p>Step-by-Step Guide for Identifying Spam & Phishing Attempts</p>
+            <p style="font-size: 0.9em; margin-top: 10px;">SOC Analyst Approved • Junior Tech Friendly</p>
+        </header>
+        
+        <div class="content">
+            <div class="alert-box">
+                <strong>⚡ Quick Start:</strong> When a user asks "Is this spam/phishing?", follow this guide step-by-step. Document your findings in the ticket. Never click links or download attachments from suspicious emails.
+            </div>
+            
+            <!-- STEP 1 -->
+            <div class="section">
+                <h2>📋 Analysis Workflow</h2>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Gather Information from User</div>
+                    </div>
+                    <div class="step-content">
+                        <p><strong>Ask the user to provide:</strong></p>
+                        <div class="substep">Forward the email as an attachment (.eml or .msg file) if possible</div>
+                        <div class="substep">Screenshot of the full email including headers</div>
+                        <div class="substep">What made them suspicious (their gut feeling matters!)</div>
+                        <div class="substep">Whether they clicked anything or replied</div>
+                        
+                        <div class="tool-box">
+                            <strong>📧 How to Forward as Attachment:</strong>
+                            <strong>Outlook:</strong> Select email → More actions → Forward as attachment<br>
+                            <strong>Gmail:</strong> Open email → Three dots menu → Show original → Download original
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Examine Email Headers</div>
+                    </div>
+                    <div class="step-content">
+                        <p><strong>Check the sender information carefully:</strong></p>
+                        
+                        <h3>A. Display Name vs Actual Email Address</h3>
+                        <div class="substep">Look at the "From" field - does the display name match the email domain?</div>
+                        <div class="example">
+                            ❌ BAD: "PayPal Support &lt;payment@secure-paypa1.com&gt;"<br>
+                            ✅ GOOD: "PayPal Support &lt;service@paypal.com&gt;"
+                        </div>
+                        
+                        <h3>B. View Full Email Headers</h3>
+                        <div class="tool-box">
+                            <strong>How to View Headers:</strong>
+                            <strong>Outlook:</strong> Open email → File → Properties → Look for "Internet headers"<br>
+                            <strong>Gmail:</strong> Open email → Three dots → Show original<br>
+                            <strong>Outlook Web:</strong> Open email → View message details (arrow icon)
+                        </div>
+                        
+                        <div class="substep">Look for SPF, DKIM, and DMARC authentication results</div>
+                        <div class="substep">Check "Received" headers - trace the email path</div>
+                        <div class="substep">Verify "Return-Path" matches sender domain</div>
+                        
+                        <div class="example">
+                            <strong>Key Header Fields to Check:</strong><br>
+                            Authentication-Results: spf=pass, dkim=pass, dmarc=pass<br>
+                            Received-SPF: Pass<br>
+                            Return-Path: &lt;noreply@legitimate-domain.com&gt;
+                        </div>
+                        
+                        <div class="red-flag">
+                            <h4>🚩 RED FLAGS in Headers:</h4>
+                            <ul>
+                                <li>SPF: fail or softfail</li>
+                                <li>DKIM: fail or missing</li>
+                                <li>DMARC: fail</li>
+                                <li>Return-Path domain differs from sender domain</li>
+                                <li>Received from suspicious countries/IPs</li>
+                                <li>Multiple forwarding hops through unknown servers</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Analyze Email Content</div>
+                    </div>
+                    <div class="step-content">
+                        <h3>A. Check for Phishing Indicators</h3>
+                        
+                        <div class="red-flag">
+                            <h4>🚩 Common Phishing Red Flags:</h4>
+                            <ul>
+                                <li><strong>Urgency/Threats:</strong> "Act now!", "Account will be closed", "Verify within 24 hours"</li>
+                                <li><strong>Generic Greetings:</strong> "Dear Customer" instead of your name</li>
+                                <li><strong>Grammar/Spelling Errors:</strong> Professional companies proofread</li>
+                                <li><strong>Requests for Sensitive Info:</strong> Passwords, SSN, credit card numbers</li>
+                                <li><strong>Suspicious Attachments:</strong> .exe, .zip, .scr files from unknown senders</li>
+                                <li><strong>Mismatched Sender:</strong> Claims to be from Bank A but sent from random-domain.com</li>
+                                <li><strong>Too Good to Be True:</strong> "You've won!", "Congratulations!", unexpected refunds</li>
+                            </ul>
+                        </div>
+                        
+                        <h3>B. Examine Links (DO NOT CLICK)</h3>
+                        <div class="substep">Hover over links to see actual destination URL</div>
+                        <div class="substep">Look for URL inconsistencies with claimed sender</div>
+                        
+                        <div class="example">
+                            ❌ Link text says: "https://www.paypal.com/verify"<br>
+                            ❌ Actual destination: "http://paypa1-secure.ru/login"
+                        </div>
+                        
+                        <div class="tool-box">
+                            <strong>🔍 Safe Link Analysis Tools:</strong>
+                            • VirusTotal (www.virustotal.com) - Paste URL to check reputation<br>
+                            • URLScan.io (urlscan.io) - Scan and preview websites safely<br>
+                            • Google Transparency Report (transparencyreport.google.com/safe-browsing)<br>
+                            • PhishTank (phishtank.org) - Verify against known phishing database
+                        </div>
+                        
+                        <h3>C. Check Domain Age and Reputation</h3>
+                        <div class="tool-box">
+                            <strong>🌐 Domain Investigation Tools:</strong>
+                            • WHOIS Lookup (who.is) - Check domain registration date<br>
+                            • MXToolbox (mxtoolbox.com) - Check domain reputation, blacklists<br>
+                            • Talos Intelligence (talosintelligence.com) - Cisco threat intelligence
+                        </div>
+                        
+                        <div class="substep">Newly registered domains (less than 30 days) are suspicious</div>
+                        <div class="substep">Check if domain is on email blacklists</div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Analyze Attachments (If Present)</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="alert-box">
+                            <strong>⚠️ CRITICAL:</strong> NEVER open suspicious attachments directly. Use sandboxed analysis tools only.
+                        </div>
+                        
+                        <h3>Suspicious File Types:</h3>
+                        <div class="red-flag">
+                            <h4>🚩 High Risk Extensions:</h4>
+                            <ul>
+                                <li>.exe, .bat, .cmd, .com - Executable files</li>
+                                <li>.scr, .pif - Screen savers (often malware)</li>
+                                <li>.js, .vbs, .wsf - Script files</li>
+                                <li>.zip, .rar, .7z - Compressed files (check contents)</li>
+                                <li>.doc, .docm, .xls, .xlsm - Office files with macros</li>
+                                <li>.pdf - Can contain malicious scripts</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-box">
+                            <strong>🛡️ Safe Attachment Analysis:</strong>
+                            <strong>VirusTotal:</strong> Upload file for multi-engine scanning (virustotal.com)<br>
+                            <strong>Any.Run:</strong> Interactive malware sandbox (app.any.run)<br>
+                            <strong>Hybrid Analysis:</strong> Free automated malware analysis (hybrid-analysis.com)<br>
+                            <strong>Joe Sandbox:</strong> Advanced malware analysis (joesandbox.com)
+                        </div>
+                        
+                        <div class="substep">Check file hash against VirusTotal database</div>
+                        <div class="substep">Note unusual file sizes (very small executables are suspicious)</div>
+                        <div class="substep">Look for double extensions (invoice.pdf.exe)</div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Verify Legitimacy with Sender</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="substep">If claiming to be from a known company, verify through official channels</div>
+                        <div class="substep">Call the company using phone number from their official website (NOT from the email)</div>
+                        <div class="substep">Check the company's official social media for security alerts</div>
+                        <div class="substep">For internal senders, contact them via Teams/Slack or phone</div>
+                        
+                        <div class="example">
+                            <strong>Example Verification:</strong><br>
+                            Email claims to be from "IT Department" requesting password reset.<br>
+                            → Call IT Help Desk directly at known extension<br>
+                            → Check if they actually sent the request<br>
+                            → Legitimate IT will understand the verification
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Make Final Determination</div>
+                    </div>
+                    <div class="step-content">
+                        <div class="decision-tree">
+                            <h4>Decision Matrix</h4>
+                            <table>
+                                <tr>
+                                    <th>Verdict</th>
+                                    <th>Criteria</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #c62828;">CONFIRMED PHISHING</strong></td>
+                                    <td>Multiple red flags, failed authentication, malicious links/attachments</td>
+                                    <td>Quarantine, report to security team, notify affected users</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #f57c00;">LIKELY SPAM</strong></td>
+                                    <td>Unsolicited, promotional, no security threat</td>
+                                    <td>Mark as spam, update filters</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #fbc02d;">SUSPICIOUS</strong></td>
+                                    <td>Some red flags, unclear intent, cannot verify</td>
+                                    <td>Advise caution, escalate to senior analyst</td>
+                                </tr>
+                                <tr>
+                                    <td><strong style="color: #2e7d32;">LEGITIMATE</strong></td>
+                                    <td>Passes all checks, verified sender, expected communication</td>
+                                    <td>Whitelist sender, inform user it's safe</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-header">
+                        <div class="step-number">7</div>
+                        <div class="step-title">Document & Report</div>
+                    </div>
+                    <div class="step-content">
+                        <h3>Required Documentation:</h3>
+                        <div class="checklist">
+                            <div class="checklist-item">✓ Date and time of analysis</div>
+                            <div class="checklist-item">✓ Sender email address and display name</div>
+                            <div class="checklist-item">✓ Subject line</div>
+                            <div class="checklist-item">✓ Key header analysis results (SPF/DKIM/DMARC)</div>
+                            <div class="checklist-item">✓ Red flags identified</div>
+                            <div class="checklist-item">✓ Tools used for verification</div>
+                            <div class="checklist-item">✓ Final verdict and confidence level</div>
+                            <div class="checklist-item">✓ Actions taken</div>
+                            <div class="checklist-item">✓ User notification sent</div>
+                        </div>
+                        
+                        <h3>Escalation Criteria:</h3>
+                        <div class="red-flag">
+                            <h4>🚨 Escalate Immediately If:</h4>
+                            <ul>
+                                <li>Confirmed phishing targeting multiple users</li>
+                                <li>Malware detected in attachments</li>
+                                <li>User clicked malicious link or downloaded file</li>
+                                <li>Credential compromise suspected</li>
+                                <li>Executive/VIP targeted (CEO fraud/whaling)</li>
+                                <li>Financial transaction requested</li>
+                                <li>Unsure about determination</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tool-box">
+                            <strong>📧 Reporting Channels:</strong>
+                            • Internal: Forward to phishing@yourcompany.com or security@yourcompany.com<br>
+                            • Microsoft: reportphishing@microsoft.com<br>
+                            • Google: phishing@google.com<br>
+                            • Anti-Phishing Working Group: reportphishing@apwg.org<br>
+                            • FTC: reportfraud.ftc.gov
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- QUICK REFERENCE -->
+            <div class="section">
+                <h2>⚡ Quick Reference Checklist</h2>
+                
+                <table>
+                    <tr>
+                        <th>Check</th>
+                        <th>What to Look For</th>
+                        <th>Red Flag Example</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Sender Email</strong></td>
+                        <td>Domain matches company</td>
+                        <td>paypa1.com instead of paypal.com</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Email Authentication</strong></td>
+                        <td>SPF, DKIM, DMARC pass</td>
+                        <td>SPF: fail, DMARC: quarantine</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Greeting</strong></td>
+                        <td>Personalized with your name</td>
+                        <td>"Dear Valued Customer"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Language</strong></td>
+                        <td>Professional, no errors</td>
+                        <td>"Your account be suspended!"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Urgency</strong></td>
+                        <td>Reasonable timeframe</td>
+                        <td>"Urgent! Act in 1 hour or lose account!"</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Links</strong></td>
+                        <td>Hover matches destination</td>
+                        <td>Shows paypal.com, goes to phishsite.ru</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Attachments</strong></td>
+                        <td>Expected file type</td>
+                        <td>Invoice.pdf.exe</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Requests</strong></td>
+                        <td>Normal business practice</td>
+                        <td>"Send us your password to verify"</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <!-- TOOLS SUMMARY -->
+            <div class="section">
+                <h2>🔧 Essential Tools Summary</h2>
+                
+                <h3>Email Header Analysis</h3>
+                <div class="tool-box">
+                    • MXToolbox Email Header Analyzer (mxtoolbox.com/EmailHeaders.aspx)<br>
+                    • Google Admin Toolbox Messageheader (toolbox.googleapps.com/apps/messageheader)<br>
+                    • Microsoft Message Header Analyzer (mha.azurewebsites.net)
+                </div>
+                
+                <h3>URL/Link Analysis</h3>
+                <div class="tool-box">
+                    • VirusTotal (virustotal.com)<br>
+                    • URLScan.io (urlscan.io)<br>
+                    • PhishTank (phishtank.org)<br>
+                    • Google Safe Browsing (transparencyreport.google.com/safe-browsing)
+                </div>
+                
+                <h3>Domain Investigation</h3>
+                <div class="tool-box">
+                    • WHOIS Lookup (who.is)<br>
+                    • MXToolbox (mxtoolbox.com)<br>
+                    • Talos Intelligence (talosintelligence.com)
+                </div>
+                
+                <h3>File Analysis</h3>
+                <div class="tool-box">
+                    • VirusTotal (virustotal.com)<br>
+                    • Any.Run (app.any.run)<br>
+                    • Hybrid Analysis (hybrid-analysis.com)<br>
+                    • Joe Sandbox (joesandbox.com)
+                </div>
+            </div>
+            
+            <!-- RESPONSE TEMPLATES -->
+            <div class="section">
+                <h2>💬 User Response Templates</h2>
+                
+                <h3>Confirmed Phishing</h3>
+                <div class="example">
+<strong>Subject: [CONFIRMED PHISHING] - Do Not Interact with Email</strong>
+
+Hi [User Name],
+
+Thank you for reporting this suspicious email. After thorough analysis, I can confirm this is a PHISHING attempt.
+
+<strong>Findings:</strong>
+- Failed email authentication (SPF/DKIM)
+- Sender domain does not match claimed organization
+- Contains malicious links/attachments
+- [Other specific findings]
+
+<strong>Required Actions:</strong>
+1. DO NOT click any links in the email
+2. DO NOT download attachments
+3. DO NOT reply to the sender
+4. Delete the email from your inbox
+5. If you clicked any links, change your passwords immediately and report to IT Security
+
+This incident has been escalated to our Security Team (Ticket #[NUMBER]).
+
+Stay vigilant!
+[Your Name]
+IT Support Team
+                </div>
+                
+                <h3>Legitimate Email</h3>
+                <div class="example">
+<strong>Subject: Email Verification Complete - Safe to Proceed</strong>
+
+Hi [User Name],
+
+Good news! I've analyzed the email and confirmed it is LEGITIMATE.
+
+<strong>Verification Results:</strong>
+- Sender authenticated (SPF, DKIM, DMARC all pass)
+- Domain matches claimed organization
+- Content verified with sender
+- No security threats detected
+
+You can safely interact with this email.
+
+If you have any other concerns, please don't hesitate to reach out.
+
+Best regards,
+[Your Name]
+IT Support Team
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p><strong>Remember:</strong> When in doubt, always escalate to a senior analyst. It's better to be cautious than to miss a real threat.</p>
+                <p style="margin-top: 10px;">Last Updated: February 2026 | For Internal Use Only</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
