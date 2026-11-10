@@ -1,4 +1,4 @@
-# phishing-email-anaysis
+# phishing-email-analysis
 Steps and tools for phish / spam email analysis.
 
 Conversation opened. 1 unread message.
